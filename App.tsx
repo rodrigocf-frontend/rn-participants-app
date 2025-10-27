@@ -1,8 +1,5 @@
-import { ThemeProvider } from "@emotion/react";
-import { StatusBar } from "expo-status-bar";
-import { Text } from "react-native";
-import theme from "./src/themes";
-import { Container, Title } from "./styles";
+import { ThemeProvider } from "styled-components/native";
+import { theme } from "./src/themes";
 import {
   Roboto_400Regular,
   Roboto_700Bold,
@@ -11,6 +8,7 @@ import {
 import * as SplashScreen from "expo-splash-screen";
 import { useEffect } from "react";
 import { Navigation } from "./src/routes";
+import { StatusBar } from "expo-status-bar";
 
 SplashScreen.preventAutoHideAsync();
 
@@ -26,6 +24,7 @@ export default function App() {
   return (
     <ThemeProvider theme={theme}>
       {fontsLoaded ? <Navigation /> : <></>}
+      <StatusBar style="light" />
     </ThemeProvider>
   );
 }
