@@ -9,6 +9,7 @@ import {
   DateContainer,
   Title,
   TitleContainer,
+  WrapperFilter,
   WrapperInput,
 } from "./styles";
 import { Alert, FlatList } from "react-native";
@@ -23,6 +24,9 @@ import {
   formatNumberToLocale,
   formatTZDateToLocale,
 } from "../../utils/date-format";
+import _ from "lodash";
+import { Filter } from "../../components/Filter";
+import { isEqual, isSameDay } from "date-fns";
 
 export function Home() {
   const theme = useTheme();
@@ -30,6 +34,7 @@ export function Home() {
   const navigation = useNavigation();
   const [eventName, setEventName] = useState("");
   const [eventDate, setEventDate] = useState<TZDate>(new TZDate());
+  const [filter, setFilter] = useState<[string]>(["date"]);
 
   const handleAddEvent = () => {
     if (eventName.length < 1) {
@@ -39,9 +44,9 @@ export function Home() {
       );
     }
 
-    const selectedDate = formatTZDateToLocale(eventDate);
-    const hasEventInTheSameDate = events.filter(
-      (item) => item.date === selectedDate
+    const selectedDate = eventDate.toISOString();
+    const hasEventInTheSameDate = events.filter((item) =>
+      isSameDay(selectedDate, item.date)
     );
 
     if (hasEventInTheSameDate.length > 0) {
@@ -59,7 +64,7 @@ export function Home() {
           text: "Sim",
           onPress: () => {
             addEvent({
-              date: formatTZDateToLocale(eventDate),
+              date: eventDate.toISOString(),
               name: eventName.trim(),
             });
             setEventName("");
@@ -73,6 +78,8 @@ export function Home() {
       ]
     );
   };
+
+  const handleFilter = (value: [string]) => setFilter(value);
 
   const handleDeleteEvent = (event: EventType) => removeEvent(event.id);
   const subtitleHighlight = formatNumberToLocale(Date.now());
@@ -93,11 +100,28 @@ export function Home() {
       <DateContainer>
         <InputDate onChange={setEventDate} value={eventDate} />
       </DateContainer>
-      <TitleContainer>
-        <Title>Eventos</Title>
-      </TitleContainer>
+      <WrapperFilter>
+        <TitleContainer>
+          <Title>Eventos</Title>
+        </TitleContainer>
+        <Filter
+          value={filter}
+          buttons={[
+            {
+              onPress: () => handleFilter(["date"]),
+              title: "Data",
+              buttonValue: "date",
+            },
+            {
+              onPress: () => handleFilter(["name"]),
+              title: "Nome",
+              buttonValue: "name",
+            },
+          ]}
+        />
+      </WrapperFilter>
       <FlatList
-        data={events}
+        data={_.orderBy(events, filter, ["asc"])}
         keyExtractor={({ id }) => id}
         renderItem={({ item }) => (
           <ListItem
@@ -109,7 +133,9 @@ export function Home() {
               })
             }
             title={item.name}
-            subtitle={`${item.date}, participantes: ${item.participants.length}`}
+            subtitle={`${formatTZDateToLocale(
+              new TZDate(item.date)
+            )}, participantes: ${item.participants.length}`}
             onRemove={() => handleDeleteEvent(item)}
           />
         )}

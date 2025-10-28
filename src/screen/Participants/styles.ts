@@ -14,6 +14,12 @@ export const WrapperInput = styled.View`
   margin: 34px 0 0 0;
 `;
 
+export const WrapperFilter = styled.View`
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+`;
+
 export const TitleContainer = styled.View`
   margin: 42px 0 16px 0;
 `;

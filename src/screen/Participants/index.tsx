@@ -4,12 +4,25 @@ import MaterialIcons from "@expo/vector-icons/MaterialIcons";
 import { useTheme } from "styled-components/native";
 import { Highlight } from "../../components/Highlight";
 import { ListItem } from "../../components/ListItem";
-import { Container, Title, TitleContainer, WrapperInput } from "./styles";
+import {
+  Container,
+  Title,
+  TitleContainer,
+  WrapperFilter,
+  WrapperInput,
+} from "./styles";
 import { Alert, FlatList } from "react-native";
 import { ListEmpty } from "../../components/ListEmpty";
 import type { StaticScreenProps } from "@react-navigation/native";
 import { useContext, useState } from "react";
 import { EventsContext, Participant } from "../../store/EventsProvider";
+import { Filter } from "../../components/Filter";
+import _ from "lodash";
+import {
+  formatNumberToLocale,
+  formatTZDateToLocale,
+} from "../../utils/date-format";
+import { TZDate } from "@date-fns/tz";
 
 type Props = StaticScreenProps<{
   id: string;
@@ -24,6 +37,7 @@ export function Participants({ route }: Props) {
   const { events, addParticipant, removeParticipant } =
     useContext(EventsContext);
   const [participantName, setParticipantName] = useState("");
+  const [filter, setFilter] = useState<["asc" | "desc"]>(["asc"]);
 
   const handleAddParticipant = () => {
     if (participantName.length < 1) {
@@ -52,10 +66,16 @@ export function Participants({ route }: Props) {
     removeParticipant(id, participant.id);
 
   const searchedEvent = events.filter((item) => item.id === id)[0];
+  const participants = _.orderBy(searchedEvent.participants, ["name"], filter);
+
+  const handleFilter = (value: ["asc" | "desc"]) => setFilter(value);
 
   return (
     <Container>
-      <Highlight title={name} subtitle={date} />
+      <Highlight
+        title={name}
+        subtitle={formatNumberToLocale(new TZDate(date).getTime())}
+      />
       <WrapperInput>
         <InputText
           placeholder="Nome do participante"
@@ -66,11 +86,28 @@ export function Participants({ route }: Props) {
           <MaterialIcons name="add" size={24} color={theme.color.WHITE} />
         </Button>
       </WrapperInput>
-      <TitleContainer>
-        <Title>Participantes</Title>
-      </TitleContainer>
+      <WrapperFilter>
+        <TitleContainer>
+          <Title>Eventos</Title>
+        </TitleContainer>
+        <Filter
+          value={filter}
+          buttons={[
+            {
+              onPress: () => handleFilter(["asc"]),
+              title: "A-Z",
+              buttonValue: "asc",
+            },
+            {
+              onPress: () => handleFilter(["desc"]),
+              title: "Z-A",
+              buttonValue: "desc",
+            },
+          ]}
+        />
+      </WrapperFilter>
       <FlatList
-        data={searchedEvent.participants}
+        data={participants}
         keyExtractor={({ id }) => id}
         renderItem={({ item }) => (
           <ListItem

@@ -19,6 +19,12 @@ export const DateContainer = styled.View`
   margin-right: auto;
 `;
 
+export const WrapperFilter = styled.View`
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+`;
+
 export const TitleContainer = styled.View`
   margin: 42px 0 16px 0;
 `;
