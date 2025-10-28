@@ -22,6 +22,31 @@ O aplicativo gerencia a lista de participantes de forma dinâmica, seguindo o la
 
 ---
 
+## 🏗️ Estrutura do Projeto
+
+A arquitetura do projeto segue uma organização modular baseada em responsabilidades, facilitando a manutenção e a escalabilidade, um padrão essencial para aplicações React Native:
+
+src
+├───@types # Definições globais de tipos do TypeScript.
+├───components # Componentes de UI reutilizáveis.
+│   ├───Button # Componente de botão padronizado.
+│   ├───Filter # Componente para ordenação/filtragem (ex: data).
+│   ├───Highlight # Título e subtítulo da tela (Home).
+│   ├───InputDate # Campo de entrada de data (`datetimepicker`).
+│   ├───InputText # Campo de entrada de texto padronizado.
+│   ├───ListEmpty # Componente para o estado vazio da lista.
+│   └───ListItem # Item individual da lista de participantes.
+├───routes # Configuração de navegação (`@react-navigation`).
+├───screen # Telas completas da aplicação.
+│   ├───Home # Tela principal de visualização de eventos.
+│   └───Participants # Tela de gerenciamento da lista de presença.
+├───services # Camada de lógica de negócio e integração (ex: AsyncStorage).
+├───store # Gerenciamento de estado global (se usado Context/Redux/Zustand).
+├───themes # Definições de estilo global (`styled-components`).
+└───utils # Funções utilitárias diversas (ex: date-fns helpers).
+
+---
+
 ## ⚙️ Tecnologias e Conceitos Utilizados
 
 O projeto foi construído utilizando as seguintes ferramentas e conceitos, conforme o `package.json`:
@@ -105,9 +130,9 @@ Para visualizar e testar o projeto localmente, siga os passos abaixo:
 
 Desenvolvido por **Rodrigo Cunha França** como atividade prática e de portfólio em React Native.
 
-| Plataforma   | Link                                    |
-| :----------- | :-------------------------------------- |
-| **LinkedIn** | [www.linkedin.com/in/rodrigocunhaf]     |
-| **GitHub**   | [https://github.com/rodrigocf-frontend] |
+| Plataforma   | Link                                  |
+| :----------- | :------------------------------------ |
+| **LinkedIn** | www.linkedin.com/in/rodrigocunhaf     |
+| **GitHub**   | https://github.com/rodrigocf-frontend |
 
 ---
