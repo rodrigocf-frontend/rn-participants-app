@@ -9,7 +9,9 @@ Uma aplicação móvel simples e reativa para o gerenciamento de lista de presen
 
 ## 🖼️ Demonstração (Screenshot/GIF)
 
-![Demostração da aplicação](https://imgur.com/a/RRZtieL)
+![teste](https://i.imgur.com/77cFMH4.gif)
+
+---
 
 ## 🚀 Funcionalidades Chave
 
