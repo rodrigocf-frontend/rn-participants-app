@@ -9,6 +9,7 @@ import * as SplashScreen from "expo-splash-screen";
 import { useEffect } from "react";
 import { Navigation } from "./src/routes";
 import { StatusBar } from "expo-status-bar";
+import { Providers } from "./src/store";
 
 SplashScreen.preventAutoHideAsync();
 
@@ -22,9 +23,9 @@ export default function App() {
   }, [fontsLoaded, error]);
 
   return (
-    <ThemeProvider theme={theme}>
+    <Providers>
       {fontsLoaded ? <Navigation /> : <></>}
       <StatusBar style="light" />
-    </ThemeProvider>
+    </Providers>
   );
 }
