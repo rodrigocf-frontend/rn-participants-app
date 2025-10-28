@@ -17,37 +17,53 @@ import { useNavigation } from "@react-navigation/native";
 import { ListEmpty } from "../../components/ListEmpty";
 import { useContext, useState } from "react";
 import { EventType, EventsContext } from "../../store/EventsProvider";
-import dayjs, { Dayjs } from "dayjs";
-import { formatDate } from "../../utils/date-format";
+
+import { TZDate } from "@date-fns/tz";
+import {
+  formatNumberToLocale,
+  formatTZDateToLocale,
+} from "../../utils/date-format";
 
 export function Home() {
   const theme = useTheme();
   const { events, addEvent, removeEvent } = useContext(EventsContext);
   const navigation = useNavigation();
   const [eventName, setEventName] = useState("");
-  const [eventDate, setEventDate] = useState<Dayjs>(dayjs());
+  const [eventDate, setEventDate] = useState<TZDate>(new TZDate());
 
   const handleAddEvent = () => {
-    if (eventName.length <= 1) {
+    if (eventName.length < 1) {
       return Alert.alert(
         "Nome de evento inválido",
         "Nome de evento deve ter no mínimo 1 caracter."
       );
     }
 
+    const selectedDate = formatTZDateToLocale(eventDate);
+    const hasEventInTheSameDate = events.filter(
+      (item) => item.date === selectedDate
+    );
+
+    if (hasEventInTheSameDate.length > 0) {
+      return Alert.alert(
+        "Evento inválido",
+        "Não se pode ter  eventos na mesma data."
+      );
+    }
+
     return Alert.alert(
       "Adcionar",
-      `Criar evento ${eventName}, no dia ${eventDate.format("DD/MM/YYYY")}?`,
+      `Criar evento ${eventName}, no dia ${formatTZDateToLocale(eventDate)}?`,
       [
         {
           text: "Sim",
           onPress: () => {
             addEvent({
-              date: formatDate(eventDate).format("DD/MM/YYYY"),
+              date: formatTZDateToLocale(eventDate),
               name: eventName.trim(),
             });
             setEventName("");
-            setEventDate(dayjs());
+            setEventDate(new TZDate());
           },
         },
         {
@@ -59,13 +75,11 @@ export function Home() {
   };
 
   const handleDeleteEvent = (event: EventType) => removeEvent(event.id);
+  const subtitleHighlight = formatNumberToLocale(Date.now());
 
   return (
     <Container>
-      <Highlight
-        title="Cadastrar evento"
-        subtitle={formatDate(dayjs()).format("DD/MM/YYYY")}
-      />
+      <Highlight title="Cadastrar evento" subtitle={subtitleHighlight} />
       <WrapperInput>
         <InputText
           placeholder="Nome do evento"
@@ -95,7 +109,7 @@ export function Home() {
               })
             }
             title={item.name}
-            subtitle={item.date}
+            subtitle={`${item.date}, participantes: ${item.participants.length}`}
             onRemove={() => handleDeleteEvent(item)}
           />
         )}
