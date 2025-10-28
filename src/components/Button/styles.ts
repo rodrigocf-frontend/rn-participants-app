@@ -14,7 +14,3 @@ export const Container = styled(TouchableOpacity).attrs<ContainerProps>({
   background-color: ${({ theme, variant = "GREEN_900" }) =>
     theme.color[variant]};
 `;
-
-export const Title = styled.Text`
-  padding: 16px;
-`;
