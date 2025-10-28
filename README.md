@@ -28,16 +28,16 @@ A arquitetura do projeto segue uma organização modular baseada em responsabili
 
 A arquitetura do projeto segue uma organização modular por responsabilidades, garantindo a manutenibilidade e escalabilidade do código:
 
-| Pasta        | Conteúdo Principal                                                  | Destaque                                                    |
-| :----------- | :------------------------------------------------------------------ | :---------------------------------------------------------- |
-| `components` | Componentes de UI reutilizáveis (Button, ListItem, InputText, etc.) | Modularidade da interface.                                  |
-| `screen`     | Telas completas da aplicação (Home, Participants).                  | Contêineres de lógica e navegação.                          |
-| `routes`     | Configuração de navegação (`@react-navigation`).                    | Definição do fluxo entre telas.                             |
-| `services`   | Camada de lógica de negócio e integração.                           | Funções de acesso a dados (Ex: `AsyncStorage`).             |
-| `store`      | Gerenciamento de estado global.                                     | Utilização de Context API, Redux ou Zustand (se aplicável). |
-| `themes`     | Definições de estilo e tema.                                        | Configuração centralizada do `styled-components`.           |
-| `utils`      | Funções auxiliares.                                                 | Helpers de data (`date-fns`), formatação, etc.              |
-| `@types`     | Definições de tipos do TypeScript.                                  | Tipos e interfaces globais.                                 |
+| Pasta        | Conteúdo Principal                                                  | Destaque                                          |
+| :----------- | :------------------------------------------------------------------ | :------------------------------------------------ |
+| `components` | Componentes de UI reutilizáveis (Button, ListItem, InputText, etc.) | Modularidade da interface.                        |
+| `screen`     | Telas completas da aplicação (Home, Participants).                  | Contêineres de lógica e navegação.                |
+| `routes`     | Configuração de navegação (`@react-navigation`).                    | Definição do fluxo entre telas.                   |
+| `services`   | Camada de lógica de negócio e integração.                           | Funções de acesso a dados (Ex: `AsyncStorage`).   |
+| `store`      | Gerenciamento de estado global.                                     | Utilização de Context API.                        |
+| `themes`     | Definições de estilo e tema.                                        | Configuração centralizada do `styled-components`. |
+| `utils`      | Funções auxiliares.                                                 | Helpers de data (`date-fns`), formatação, etc.    |
+| `@types`     | Definições de tipos do TypeScript.                                  | Tipos e interfaces globais.                       |
 
 ---
 
