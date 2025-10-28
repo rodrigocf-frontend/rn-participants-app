@@ -26,24 +26,18 @@ O aplicativo gerencia a lista de participantes de forma dinâmica, seguindo o la
 
 A arquitetura do projeto segue uma organização modular baseada em responsabilidades, facilitando a manutenção e a escalabilidade, um padrão essencial para aplicações React Native:
 
-.
-|-- @types # Definições globais de tipos do TypeScript.
-|-- components # Componentes de UI reutilizáveis.
-| |-- Button # Componente de botão padronizado.
-| |-- Filter # Componente para ordenação/filtragem (ex: data).
-| |-- Highlight # Título e subtítulo da tela (Home).
-| |-- InputDate # Campo de entrada de data (`datetimepicker`).
-| |-- InputText # Campo de entrada de texto padronizado.
-| |-- ListEmpty # Componente para o estado vazio da lista.
-| |-- ListItem # Item individual da lista de participantes.
-|-- routes # Configuração de navegação (`@react-navigation`).
-|-- screen # Telas completas da aplicação.
-| |-- Home # Tela principal de visualização de eventos.
-| |-- Participants # Tela de gerenciamento da lista de presença.
-|-- services # Camada de lógica de negócio e integração (ex: AsyncStorage).
-|-- store # Gerenciamento de estado global (se usado Context/Redux/Zustand).
-|-- themes # Definições de estilo global (`styled-components`).
-|-- utils # Funções utilitárias diversas (ex: date-fns helpers).
+A arquitetura do projeto segue uma organização modular por responsabilidades, garantindo a manutenibilidade e escalabilidade do código:
+
+| Pasta        | Conteúdo Principal                                                  | Destaque                                                    |
+| :----------- | :------------------------------------------------------------------ | :---------------------------------------------------------- |
+| `components` | Componentes de UI reutilizáveis (Button, ListItem, InputText, etc.) | Modularidade da interface.                                  |
+| `screen`     | Telas completas da aplicação (Home, Participants).                  | Contêineres de lógica e navegação.                          |
+| `routes`     | Configuração de navegação (`@react-navigation`).                    | Definição do fluxo entre telas.                             |
+| `services`   | Camada de lógica de negócio e integração.                           | Funções de acesso a dados (Ex: `AsyncStorage`).             |
+| `store`      | Gerenciamento de estado global.                                     | Utilização de Context API, Redux ou Zustand (se aplicável). |
+| `themes`     | Definições de estilo e tema.                                        | Configuração centralizada do `styled-components`.           |
+| `utils`      | Funções auxiliares.                                                 | Helpers de data (`date-fns`), formatação, etc.              |
+| `@types`     | Definições de tipos do TypeScript.                                  | Tipos e interfaces globais.                                 |
 
 ---
 
