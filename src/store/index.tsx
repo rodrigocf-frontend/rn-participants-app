@@ -6,7 +6,7 @@ import { theme } from "../themes";
 export function Providers({ children }: Readonly<PropsWithChildren>) {
   return (
     <ThemeProvider theme={theme}>
-      <EventsProvider>{children}</EventsProvider>;
+      <EventsProvider>{children}</EventsProvider>
     </ThemeProvider>
   );
 }
