@@ -1,4 +1,6 @@
-import { PropsWithChildren, createContext, useState } from "react";
+import { PropsWithChildren, createContext, useEffect, useState } from "react";
+import { getStorageData, storeData } from "../services/storage";
+import { AppError } from "../utils/errors";
 
 export type Participant = {
   id: string;
@@ -38,33 +40,41 @@ const initialState: EventStateType = {
 export const EventsContext = createContext(initialState);
 
 export function EventsProvider({ children }: Readonly<PropsWithChildren>) {
-  const [events, setEvents] = useState(initialState);
+  const [state, setState] = useState(initialState);
 
   const addEvent = (event: AddEventParams) => {
-    setEvents((prevState) => ({
-      ...prevState,
-      events: [
+    setState((prevState) => {
+      const event_nextId = (prevState.event_nextId += 1);
+      const events = [
         {
           ...event,
           participants: [],
           id: prevState.event_nextId.toString(),
         },
         ...prevState.events,
-      ],
-      event_nextId: (prevState.event_nextId += 1),
-    }));
+      ];
+
+      return {
+        ...prevState,
+        events,
+        event_nextId,
+      };
+    });
   };
 
   const removeEvent = (id: string) =>
-    setEvents((prevState) => ({
-      ...prevState,
-      events: prevState.events.filter((item) => item.id !== id),
-    }));
+    setState((prevState) => {
+      const events = prevState.events.filter((item) => item.id !== id);
+
+      return {
+        ...prevState,
+        events,
+      };
+    });
 
   const addParticipant = (eventId: string, participant: AddParticipantParams) =>
-    setEvents((prevState) => ({
-      ...prevState,
-      events: prevState.events.map((item) => {
+    setState((prevState) => {
+      const events = prevState.events.map((item) => {
         if (item.id === eventId) {
           return {
             ...item,
@@ -78,14 +88,20 @@ export function EventsProvider({ children }: Readonly<PropsWithChildren>) {
           };
         }
         return item;
-      }),
-      participant_nextId: (prevState.participant_nextId += 1),
-    }));
+      });
+
+      const participant_nextId = (prevState.participant_nextId += 1);
+
+      return {
+        ...prevState,
+        events,
+        participant_nextId,
+      };
+    });
 
   const removeParticipant = (eventId: string, id: string) =>
-    setEvents((prevState) => ({
-      ...prevState,
-      events: prevState.events.map((item) => {
+    setState((prevState) => {
+      const events = prevState.events.map((item) => {
         if (item.id === eventId) {
           return {
             ...item,
@@ -95,13 +111,53 @@ export function EventsProvider({ children }: Readonly<PropsWithChildren>) {
           };
         }
         return item;
-      }),
-    }));
+      });
+
+      return {
+        ...prevState,
+        events,
+      };
+    });
+
+  const getData = async () => {
+    try {
+      const storageData = await getStorageData();
+
+      if (storageData) {
+        setState((prevState) => ({
+          ...prevState,
+          ...storageData,
+        }));
+      }
+    } catch (e) {
+      AppError(e);
+    }
+  };
+
+  const saveData = async () => {
+    try {
+      await storeData(
+        state.events,
+        state.event_nextId,
+        state.participant_nextId
+      );
+    } catch (e) {
+      AppError(e);
+    }
+  };
+
+  useEffect(() => {
+    getData();
+  }, []);
+
+  useEffect(() => {
+    saveData();
+  }, [state.events]);
 
   return (
     <EventsContext.Provider
       value={{
-        ...events,
+        ...state,
         addEvent,
         removeEvent,
         addParticipant,
