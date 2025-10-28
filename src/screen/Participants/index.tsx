@@ -26,7 +26,7 @@ export function Participants({ route }: Props) {
   const [participantName, setParticipantName] = useState("");
 
   const handleAddParticipant = () => {
-    if (participantName.length <= 1) {
+    if (participantName.length < 1) {
       return Alert.alert(
         "Nome de participante inválido",
         "Nome de participante deve ter no mínimo 1 caracter."
