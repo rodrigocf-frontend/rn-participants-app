@@ -2,20 +2,25 @@ import {
   DateTimePickerAndroid,
   type DateTimePickerEvent,
 } from "@react-native-community/datetimepicker";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Value, Button, Container } from "./styles";
-import dayjs from "dayjs";
+import dayjs, { Dayjs } from "dayjs";
 import { formatDate } from "../../utils/date-format";
 import { MaterialIcons } from "@expo/vector-icons";
 import { useTheme } from "styled-components/native";
 
-export function InputDate() {
+interface Props {
+  onChange: React.Dispatch<React.SetStateAction<dayjs.Dayjs>>;
+  value: Dayjs;
+}
+
+export function InputDate({ onChange, value }: Props) {
   const theme = useTheme();
-  const [date, setDate] = useState(formatDate(dayjs()));
+  const [date, setDate] = useState(formatDate(value));
 
   const handleShow = () => {
     DateTimePickerAndroid.open({
-      value: dayjs(date).toDate(),
+      value: date.toDate(),
       onChange: handleChange,
       mode: "date",
       is24Hour: true,
@@ -24,9 +29,15 @@ export function InputDate() {
 
   const handleChange = (_: DateTimePickerEvent, date?: Date) => {
     if (date) {
-      setDate(formatDate(dayjs(date)));
+      const utcDate = formatDate(dayjs(date));
+      onChange(utcDate);
     }
   };
+
+  useEffect(() => {
+    const utcDate = formatDate(dayjs(value));
+    setDate(utcDate);
+  }, [value]);
 
   return (
     <Container>
