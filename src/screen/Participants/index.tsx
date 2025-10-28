@@ -5,38 +5,64 @@ import { useTheme } from "styled-components/native";
 import { Highlight } from "../../components/Highlight";
 import { ListItem } from "../../components/ListItem";
 import { Container, Title, TitleContainer, WrapperInput } from "./styles";
-import { FlatList } from "react-native";
+import { Alert, FlatList } from "react-native";
 import { ListEmpty } from "../../components/ListEmpty";
+import type { StaticScreenProps } from "@react-navigation/native";
+import { useContext, useState } from "react";
+import { EventsContext, Participant } from "../../store/EventsProvider";
 
-type Participant = {
+type Props = StaticScreenProps<{
   id: string;
   name: string;
-};
+  date: string;
+}>;
 
-const participants: Participant[] = [
-  { id: "1", name: "Rodolfo Gonçalves" },
-  { id: "2", name: "Rodolfo Gonçalves" },
-  { id: "3", name: "Rodolfo Gonçalves" },
-  { id: "4", name: "Rodolfo Gonçalves" },
-  { id: "5", name: "Rodolfo Gonçalves" },
-  { id: "6", name: "Rodolfo Gonçalves" },
-  { id: "7", name: "Rodolfo Gonçalves" },
-  { id: "8", name: "Rodolfo Gonçalves" },
-  { id: "9", name: "Rodolfo Gonçalves" },
-];
+export function Participants({ route }: Props) {
+  const { date, name, id } = route.params;
 
-export function Participants() {
   const theme = useTheme();
+  const { events, addParticipant, removeParticipant } =
+    useContext(EventsContext);
+  const [participantName, setParticipantName] = useState("");
+
+  const handleAddParticipant = () => {
+    if (participantName.length <= 1) {
+      return Alert.alert(
+        "Nome de participante inválido",
+        "Nome de participante deve ter no mínimo 1 caracter."
+      );
+    }
+
+    return Alert.alert("Adicionar", `Adicionar ${participantName} no evento?`, [
+      {
+        text: "Sim",
+        onPress: () => {
+          addParticipant(id, { name: participantName.trim() });
+          setParticipantName("");
+        },
+      },
+      {
+        text: "Cancelar",
+        style: "cancel",
+      },
+    ]);
+  };
+
+  const handleDeleteEvent = (participant: Participant) =>
+    removeParticipant(id, participant.id);
+
+  const searchedEvent = events.filter((item) => item.id === id)[0];
 
   return (
     <Container>
-      <Highlight
-        title="Nome do evento"
-        subtitle="Sexta, 4 de Novembro de 2022."
-      />
+      <Highlight title={name} subtitle={date} />
       <WrapperInput>
-        <InputText placeholder="Nome do participante" />
-        <Button variant="GREEN_900">
+        <InputText
+          placeholder="Nome do participante"
+          value={participantName}
+          onChangeText={setParticipantName}
+        />
+        <Button variant="GREEN_900" onPress={handleAddParticipant}>
           <MaterialIcons name="add" size={24} color={theme.color.WHITE} />
         </Button>
       </WrapperInput>
@@ -44,9 +70,14 @@ export function Participants() {
         <Title>Participantes</Title>
       </TitleContainer>
       <FlatList
-        data={participants}
+        data={searchedEvent.participants}
         keyExtractor={({ id }) => id}
-        renderItem={({ item }) => <ListItem title={item.name} />}
+        renderItem={({ item }) => (
+          <ListItem
+            title={item.name}
+            onRemove={() => handleDeleteEvent(item)}
+          />
+        )}
         showsVerticalScrollIndicator={false}
         ListEmptyComponent={
           <ListEmpty
