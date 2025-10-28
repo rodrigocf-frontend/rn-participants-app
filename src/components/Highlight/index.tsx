@@ -9,7 +9,7 @@ export function Highlight({ title, subtitle }: Props) {
   return (
     <Container>
       <Title>{title}</Title>
-      {subtitle && <Subtitle>Sexta, 4 de Novembro de 2022.</Subtitle>}
+      {subtitle && <Subtitle>{subtitle}</Subtitle>}
     </Container>
   );
 }
