@@ -1,4 +1,4 @@
-# 🤝 Lista de Presença | I'm Here
+# 🤝 rn-participants-app (baseado no desafio I`m here)
 
 ![Badge de Status](https://img.shields.io/badge/Status-Concluído-success)
 ![Badge de Tecnologias](https://img.shields.io/badge/Tech-React_Native%20%7C%20TypeScript%20%7C%20StyledComponents-blue)
@@ -77,8 +77,8 @@ Para visualizar e testar o projeto localmente, siga os passos abaixo:
 1.  **Clone o repositório:**
 
     ```bash
-    git clone [Link do Seu Repositório GitHub]
-    cd [Nome da Pasta do Projeto]
+    git clone https://github.com/rodrigocf-frontend/rn-participants-app.git
+    cd rn-participants-app
     ```
 
 2.  **Instale as dependências:**
@@ -103,13 +103,11 @@ Para visualizar e testar o projeto localmente, siga os passos abaixo:
 
 ## 👤 Autor e Contato
 
-Desenvolvido por **[Seu Nome Completo]** como atividade prática e de portfólio em React Native.
+Desenvolvido por **Rodrigo Cunha França** como atividade prática e de portfólio em React Native.
 
-| Plataforma   | Link                   |
-| :----------- | :--------------------- |
-| **LinkedIn** | [Seu Link do LinkedIn] |
-| **GitHub**   | [Seu Link do GitHub]   |
+| Plataforma   | Link                                    |
+| :----------- | :-------------------------------------- |
+| **LinkedIn** | [www.linkedin.com/in/rodrigocunhaf]     |
+| **GitHub**   | [https://github.com/rodrigocf-frontend] |
 
 ---
-
-Gostaria de ajuda para criar um breve _pitch_ (resumo de apresentação) para o seu LinkedIn ou para uma entrevista, destacando as principais tecnologias deste projeto?
