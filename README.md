@@ -3,7 +3,7 @@
 ![Badge de Status](https://img.shields.io/badge/Status-Concluído-success)
 ![Badge de Tecnologias](https://img.shields.io/badge/Tech-React_Native%20%7C%20TypeScript%20%7C%20StyledComponents-blue)
 [![Link do Figma](https://img.shields.io/badge/Layout-Figma-orange)](https://www.figma.com/design/0PVr0CoFGq8nCfK37cD5TE/Chapter-I---Im-Here--cópia-?node-id=1-4586&t=QbLaNdGjS2yMNvYn-0)
-[![Documentação do Projeto](https.shields.io/badge/Documentação-Notion-000000)](https://www.notion.so/rn-participants-app-298abdfdd66380deb6fcfe01ced2bdbe)
+[![Documentação](https://img.shields.io/badge/Documentação-Notion-27292D?style=flat-square&logo=notion&logoColor=white)](https://www.notion.so/rn-participants-app-298abdfdd66380deb6fcfe01ced2bdbe)
 
 Uma aplicação móvel simples e reativa para o gerenciamento de lista de presença em eventos. Desenvolvida como atividade do curso de React Native, este projeto demonstra proficiência em gerenciamento de estado, persistência de dados e estilização avançada com foco em boas práticas.
 
